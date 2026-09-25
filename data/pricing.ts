@@ -1,0 +1,50 @@
+/** Тарифные планы. Средний план — highlighted */
+export const PRICING_PLANS = [
+  {
+    id: "starter",
+    name: "Starter",
+    price: "0",
+    period: "навсегда",
+    description: "Для соло и небольших экспериментов.",
+    highlighted: false,
+    cta: "Начать бесплатно",
+    features: [
+      "До 3 участников",
+      "Базовые доски",
+      "AI — 50 запросов/мес",
+      "Email-поддержка",
+    ],
+  },
+  {
+    id: "pro",
+    name: "Pro",
+    price: "29",
+    period: "за пользователя / мес",
+    description: "Для растущих продуктовых команд.",
+    highlighted: true,
+    cta: "Попробовать 14 дней",
+    features: [
+      "Безлимит участников",
+      "Все виды досок",
+      "AI без лимитов",
+      "Автоматизации",
+      "Приоритетная поддержка",
+    ],
+  },
+  {
+    id: "enterprise",
+    name: "Enterprise",
+    price: "Custom",
+    period: "под задачу",
+    description: "Для компаний с жёсткими требованиями к безопасности.",
+    highlighted: false,
+    cta: "Связаться с нами",
+    features: [
+      "Всё из Pro",
+      "SSO / SAML",
+      "Выделенный менеджер",
+      "SLA 99.9%",
+      "Кастомные интеграции",
+    ],
+  },
+] as const
