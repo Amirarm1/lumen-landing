@@ -29,5 +29,12 @@ src/
 ## Особенности
 
 - Тёмная тема по умолчанию + светлая
-- Данные в `/data/*.ts` без БД
-- Форма подписки: `console.log` + toast, без бэкенда
+- Данные лендинга в `/data/*.ts`
+- Форма подписки пишет email в **Supabase** (`subscribers`)
+
+## Supabase
+
+1. Скопируй `.env.example` → `.env.local` и подставь ключи из Project Settings → API.
+2. **Project URL** без `/rest/v1/` — только `https://xxxx.supabase.co`.
+3. Таблица: `subscribers` (`id`, `email`, `created_at`).
+4. Для продакшена добавь те же переменные в Vercel → Environment Variables и сделай Redeploy.

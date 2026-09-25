@@ -1,27 +1,31 @@
 "use client"
 
+import { useState, useTransition } from "react"
 import { toast } from "sonner"
 
+import { subscribeEmail } from "@/app/actions/subscribe"
 import { Reveal } from "@/components/reveal"
 import { Button } from "@/components/ui/button"
 import { SITE } from "@data/site"
 
-/** Финальный CTA + имитация подписки (console.log + toast) */
+/** Финальный CTA — email уходит в Supabase (таблица subscribers) */
 export function Cta() {
+  const [pending, startTransition] = useTransition()
+  const [email, setEmail] = useState("")
+
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    const form = e.currentTarget
-    const data = new FormData(form)
-    const email = String(data.get("email") || "").trim()
+    const formData = new FormData(e.currentTarget)
 
-    if (!email) {
-      toast.error("Введите email")
-      return
-    }
-
-    console.log("[Lumen subscribe]", { email, at: new Date().toISOString() })
-    toast.success("Готово! Проверьте почту — ссылка уже летит ✨")
-    form.reset()
+    startTransition(async () => {
+      const result = await subscribeEmail(null, formData)
+      if (result.ok) {
+        toast.success(result.message)
+        setEmail("")
+      } else {
+        toast.error(result.message)
+      }
+    })
   }
 
   return (
@@ -53,17 +57,21 @@ export function Cta() {
                   id="subscribe-email"
                   type="email"
                   name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@company.com"
                   required
                   autoComplete="email"
-                  className="min-w-[220px] flex-1 rounded-full border border-border bg-background px-4 py-2.5 outline-none transition focus:border-brand focus:ring-3 focus:ring-brand/30"
+                  disabled={pending}
+                  className="min-w-[220px] flex-1 rounded-full border border-border bg-background px-4 py-2.5 outline-none transition focus:border-brand focus:ring-3 focus:ring-brand/30 disabled:opacity-60"
                 />
                 <Button
                   type="submit"
                   size="lg"
+                  disabled={pending}
                   className="rounded-full bg-linear-to-br from-brand to-brand-3 px-6 text-white shadow-glow hover:opacity-95"
                 >
-                  Получить доступ
+                  {pending ? "Отправка…" : "Получить доступ"}
                 </Button>
               </form>
             </div>
