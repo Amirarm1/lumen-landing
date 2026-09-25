@@ -1,25 +1,23 @@
 import { Cta } from "@/components/cta"
+import { DemoChat } from "@/components/demo-chat"
 import { Faq } from "@/components/faq"
-import { Features } from "@/components/features"
 import { Footer } from "@/components/footer"
 import { Hero } from "@/components/hero"
 import { HowItWorks } from "@/components/how-it-works"
 import { Navbar } from "@/components/navbar"
+import { Pain } from "@/components/pain"
 import { Pricing } from "@/components/pricing"
-import { ProblemSolution } from "@/components/problem-solution"
-import { Testimonials } from "@/components/testimonials"
 
-/** Главная страница лендинга Lumen */
+/** Лендинг продукта «Пинок» */
 export default function HomePage() {
   return (
     <div id="top">
       <Navbar />
       <main>
         <Hero />
-        <ProblemSolution />
-        <Features />
+        <DemoChat />
+        <Pain />
         <HowItWorks />
-        <Testimonials />
         <Pricing />
         <Faq />
         <Cta />

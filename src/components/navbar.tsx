@@ -1,6 +1,6 @@
 "use client"
 
-import { Menu, Sparkles, X } from "lucide-react"
+import { Menu, X, Zap } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
@@ -11,13 +11,17 @@ import { NAV_LINKS } from "@data/nav"
 import { SITE } from "@data/site"
 import { cn } from "@/lib/utils"
 
-/** Sticky Navbar с glassmorphism */
+function botUrl() {
+  return process.env.NEXT_PUBLIC_TELEGRAM_BOT_URL || SITE.telegramBotUrl
+}
+
+/** Sticky Navbar Пинок */
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
+    const onScroll = () => setScrolled(window.scrollY > 8)
     onScroll()
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
@@ -26,22 +30,22 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "glass sticky top-0 z-50 border-b border-transparent transition-shadow",
-        scrolled && "border-glass-border shadow-lg shadow-black/20"
+        "sticky top-0 z-50 border-b border-transparent transition-all duration-300",
+        scrolled && "glass border-glass-border shadow-lg shadow-black/10"
       )}
     >
-      <div className="container-page flex h-[72px] items-center justify-between gap-4">
+      <div className="container-page flex h-[68px] items-center justify-between gap-4 md:h-[76px]">
         <Link
           href="#top"
           className="font-heading z-10 flex items-center gap-2.5 text-lg font-bold tracking-tight"
         >
-          <span className="grid size-8 place-items-center rounded-[10px] bg-linear-to-br from-brand to-brand-3 shadow-glow">
-            <Sparkles className="size-4 text-white" />
+          <span className="grid size-9 place-items-center rounded-xl bg-linear-to-br from-brand-2 to-brand-3 shadow-glow">
+            <Zap className="size-4 text-white" fill="currentColor" />
           </span>
           {SITE.name}
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Основная навигация">
+        <nav className="hidden items-center gap-0.5 md:flex" aria-label="Навигация">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
@@ -56,20 +60,22 @@ export function Navbar() {
         <div className="z-10 flex items-center gap-2">
           <ThemeToggle />
           <a
-            href="#cta"
+            href={botUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
             className={cn(
               buttonVariants({ size: "sm" }),
-              "hidden rounded-full bg-linear-to-br from-brand to-brand-3 px-4 text-white shadow-glow hover:opacity-95 md:inline-flex"
+              "pinok-btn hidden rounded-full px-4 text-white hover:brightness-110 md:inline-flex"
             )}
           >
-            Попробовать бесплатно
+            Открыть бота
           </a>
           <Button
             type="button"
             variant="outline"
             size="icon"
-            className="md:hidden"
-            aria-label={open ? "Закрыть меню" : "Открыть меню"}
+            className="rounded-xl md:hidden"
+            aria-label={open ? "Закрыть" : "Меню"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
           >
@@ -84,21 +90,23 @@ export function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="rounded-lg px-3 py-3 text-sm text-muted-foreground hover:bg-surface-hover hover:text-foreground"
+              className="rounded-xl px-3 py-3 text-sm text-muted-foreground hover:bg-surface-hover hover:text-foreground"
               onClick={() => setOpen(false)}
             >
               {link.label}
             </a>
           ))}
           <a
-            href="#cta"
+            href={botUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => setOpen(false)}
             className={cn(
               buttonVariants({ size: "lg" }),
-              "mt-2 rounded-full bg-linear-to-br from-brand to-brand-3 text-white"
+              "pinok-btn mt-2 rounded-full text-white"
             )}
           >
-            Попробовать бесплатно
+            Открыть бота
           </a>
         </nav>
       )}

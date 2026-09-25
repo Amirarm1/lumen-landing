@@ -1,0 +1,11 @@
+# Пинок — Telegram-бот (aiogram 3 + Groq)
+#
+# 1. @BotFather → токен → BOT_TOKEN
+# 2. console.groq.com → API Key → GROQ_API_KEY (нужен VPN из РФ)
+# 3. pip install -r requirements.txt
+# 4. python bot.py
+
+aiogram>=3.13,<4
+python-dotenv>=1.0
+groq>=0.11
+tzdata>=2024.1

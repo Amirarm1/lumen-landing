@@ -1,40 +1,46 @@
-# Lumen — лендинг на Next.js
+# Пинок
 
-Современный SaaS-лендинг **Lumen** на стеке:
+Telegram-бот + лендинг: ежедневный микро-шаг и вопрос «Сделал?»
 
-- **Next.js 16** (App Router) + TypeScript
-- **Tailwind CSS 4**
-- **shadcn/ui** (Accordion, Button)
-- **next-themes** + **sonner** (тема и toast)
-
-## Запуск
+## Лендинг (Next.js)
 
 ```bash
 npm install
+# .env.local — Supabase (waitlist) + опционально:
+# NEXT_PUBLIC_TELEGRAM_BOT_URL=https://t.me/YourBot
 npm run dev
 ```
 
-Откройте http://localhost:3000
+Открой http://localhost:3000
 
-## Структура
+## Бот
 
+```bash
+cd bot
+pip install -r requirements.txt
+# bot/.env:
+#   BOT_TOKEN=...
+#   GROQ_API_KEY=gsk_...   # console.groq.com (VPN из РФ)
+python bot.py
 ```
-data/                     # контент (отзывы, тарифы, FAQ…)
-src/
-  app/                    # layout + page
-  components/             # секции лендинга + ui/
-  lib/utils.ts
-```
 
-## Особенности
+ИИ (Groq) генерирует микро-шаг под любую цель. Если ключа нет — шаблоны.
 
-- Тёмная тема по умолчанию + светлая
-- Данные лендинга в `/data/*.ts`
-- Форма подписки пишет email в **Supabase** (`subscribers`)
+### Напоминания
+По умолчанию каждый день в **09:00 МСК** (пока `python bot.py` запущен).
 
-## Supabase
+- `/time 08:30` — своё время  
+- `/ping` — тестовый пинок сейчас  
+- `/remind_off` / `/remind_on`  
+- Состояние пользователей: `bot/users_state.json`
 
-1. Скопируй `.env.example` → `.env.local` и подставь ключи из Project Settings → API.
-2. **Project URL** без `/rest/v1/` — только `https://xxxx.supabase.co`.
-3. Таблица: `subscribers` (`id`, `email`, `created_at`).
-4. Для продакшена добавь те же переменные в Vercel → Environment Variables и сделай Redeploy.
+Команды для BotFather: `bot/botfather_commands.txt`
+## Оплата
+
+Пока waitlist (email → Supabase `subscribers`). ЮKassa / Telegram Payments — следующий шаг.
+
+## Стек
+
+- Next.js + Tailwind + shadcn
+- Supabase (список email)
+- aiogram 3 (бот)

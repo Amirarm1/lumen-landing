@@ -7,7 +7,7 @@ export type SubscribeState = {
   message: string
 }
 
-/** Сохраняет email в таблицу subscribers (Supabase) */
+/** Waitlist / подписка на пилот Пинка → таблица subscribers */
 export async function subscribeEmail(
   _prev: SubscribeState | null,
   formData: FormData
@@ -25,15 +25,14 @@ export async function subscribeEmail(
     const { error } = await supabase.from("subscribers").insert({ email })
 
     if (error) {
-      // Уникальный email уже есть
       if (error.code === "23505") {
-        return { ok: true, message: "Вы уже в списке — скоро напишем ✨" }
+        return { ok: true, message: "Ты уже в списке — напишем, как откроем пилот 👊" }
       }
       console.error("[subscribe]", error.message)
       return { ok: false, message: "Не удалось сохранить. Попробуйте позже." }
     }
 
-    return { ok: true, message: "Готово! Проверьте почту — ссылка уже летит ✨" }
+    return { ok: true, message: "В списке! Открой бота и напиши цель — или жди письмо о пилоте." }
   } catch (err) {
     console.error("[subscribe]", err)
     return {
